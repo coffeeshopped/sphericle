@@ -1,0 +1,29 @@
+---
+title: Sphericle
+eleventyComputed:
+  navToHtmlOptions:
+    listClass: main-nav
+    activeListItemClass: active
+    activeKey: "{{ eleventyNavigation.key }}"
+---
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/css/start.css">
+  </head>
+
+  <body>
+    {{ collections.all | eleventyNavigation | eleventyNavigationToHtml: navToHtmlOptions }}
+    
+    <section class="main">
+      {{ content }}
+    </section>
+    
+  </body>
+</html>
