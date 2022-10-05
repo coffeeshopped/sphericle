@@ -5,5 +5,5 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventySass);
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   
-  return { dir: { input: "_src", output: "_site" } };
+  return { dir: { input: "_src", output: "docs" } };
 };
