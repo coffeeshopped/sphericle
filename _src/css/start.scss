@@ -64,6 +64,14 @@ ul.main-nav {
 section.main {
   max-width: 640px;
   margin: 0 auto;
+  
+  img {
+    max-width: 100%;
+  }
+}
+
+footer {
+  text-align: center;
 }
 
 .release {
@@ -98,5 +106,12 @@ form {
     font-family: var(--base-font);
     font-size: 1.0rem;
     padding: 0.25rem 0.5rem;
+  }
+}
+
+.glory-math {
+  img {
+    display: block;
+    margin: 0 0 8rem;
   }
 }
