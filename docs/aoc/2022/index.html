@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advent of Code 2022</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="/css/start.css">
+  </head>
+
+  <body>
+    <ul class="main-nav"><li><a href="/">Home</a></li>
+<li><a href="/chorist/">Chorist</a></li>
+<li><a href="/hillview/">Hillview</a></li></ul>
+    
+    <section class="main">
+      
+  <h1>Advent of Code 2022</h1>
+
+  <p>Trying out <a href="https://adventofcode.com">Advent of Code</a> for the first time. Below are my solutions for each of the days I've completed, using Javascript and Node.js.</p>
+
+<h2>Day 1</h2>
+
+<code><pre>
+fs = require('fs');
+
+function fileProcess(linesFn) {
+  fs.readFile("01.txt", 'utf8', function (err, data) {
+    if (err) { return console.log(err) }
+    const lines = data.split("\n")
+    linesFn(lines)
+  })  
+}
+
+function a() {
+  fileProcess(lines => {
+    let max = 0
+    let elf = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const l = lines[i]
+      if (l == '') {
+        if (elf &gt; max) {
+          max = elf
+        }
+        elf = 0
+      }
+      else {
+        elf += parseInt(l)
+      }
+    }
+    console.log("A: " + max)
+  })
+}
+
+function b() {
+  fileProcess(lines => {
+    let max = [0, 0, 0]
+    let elf = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const l = lines[i]
+      if (l == '') {
+        for (var j=0; j&lt;max.length; ++j) {
+          if (elf &gt; max[j]) {
+            max[j] = elf
+            elf = 0
+            max.sort((a, b) => a - b)
+            break
+          }
+        }
+        elf = 0
+      }
+      else {
+        elf += parseInt(l)
+      }
+    }
+    const bb = max.reduce((total, current) => total + current, 0)
+    console.log("B: " + bb)
+  })
+}
+
+a()
+b()
+</pre></code>
+
+
+<h2>Day 2</h2>
+
+<code><pre>
+fs = require('fs');
+
+function fileProcess(linesFn) {
+  fs.readFile("02.txt", 'utf8', function (err, data) {
+    if (err) { return console.log(err) }
+    // console.log(data)
+    const lines = data.split("\n")
+    linesFn(lines)
+  })  
+}
+
+function winScore(yourMove, myMove) {
+  return myMove == yourMove ? 3 : 
+    myMove == 1 && yourMove == 3 ? 6 : 
+    myMove == 3 && yourMove == 1 ? 0 : 
+    myMove > yourMove ? 6 : 0
+}
+
+function a() {
+  fileProcess(lines => {
+    let myTotal = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const [you, me] = lines[i].split(" ")
+      const yourMove = ["A", "B", "C"].indexOf(you) + 1
+      const myMove = ["X", "Y", "Z"].indexOf(me) + 1
+      myTotal += myMove + winScore(yourMove, myMove)
+    }
+    
+    console.log("A: " + myTotal)
+  })
+}
+
+function b() {
+  fileProcess(lines => {
+    let myTotal = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const [you, outcome] = lines[i].split(" ")
+      const yourMove = ["A", "B", "C"].indexOf(you) + 1
+      let myMove = 0
+      switch (outcome) {
+        case "X":
+          myMove = yourMove == 1 ? 3 : yourMove - 1
+          break
+        case "Y": // draw
+          myMove = yourMove
+          break
+        default:
+          myMove = yourMove == 3 ? 1 : yourMove + 1
+          break
+      }
+      
+      myTotal += myMove + winScore(yourMove, myMove)
+    }
+    
+    console.log("B: " + myTotal)
+  })
+}
+
+a()
+b()
+</pre></code>
+
+  
+
+    </section>
+    
+    <footer>
+      <p>Contact: chadwick at hey dot com</p>
+    </footer>
+  </body>
+</html>
