@@ -150,8 +150,113 @@ a()
 b()
 </pre></code>
 
-  
+<h2>Day 3</h2>
 
+<code><pre>
+function fileProcess(linesFn) {
+  require(&apos;fs&apos;).readFile(&quot;03.txt&quot;, &apos;utf8&apos;, function (err, data) {
+    if (err) { return console.log(err) }
+    const lines = data.split(&quot;\n&quot;)
+    linesFn(lines)
+  })  
+}
+
+const priority = (code) =&gt; code &gt; 96 ? code - 96 : code - 38
+
+function a() {
+  fileProcess(lines =&gt; {
+    let total = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const line = lines[i]
+      const half = line.length / 2
+      for (var j=0; j&lt;half; ++j) {
+        const item = line.charAt(j)
+        if (line.indexOf(item, half) &gt;= 0) {
+          total += priority(item.charCodeAt(0))
+          break
+        }
+      }
+    }
+    
+    console.log(&quot;A: &quot; + total)
+  })
+}
+
+function b() {
+  fileProcess(lines =&gt; {
+    let total = 0
+    let groupCount = lines.length / 3
+    for (var i=0; i&lt;groupCount; ++i) {
+      const x = lines[i*3]
+      const y = lines[i*3 + 1]
+      const z = lines[i*3 + 2]
+      for (var j=0; j&lt;x.length; ++j) {
+        const item = x.charAt(j)
+        if (y.indexOf(item) &gt;= 0 &amp;&amp; z.indexOf(item) &gt;= 0) {
+          total += priority(item.charCodeAt(0))
+          break
+        }
+      }
+    }
+    console.log(&quot;B: &quot; + total)
+  })
+}
+
+a()
+b()
+</pre></code>
+
+<h2>Day 4</h2>
+
+<code><pre>
+function fileProcess(linesFn) {
+  require(&apos;fs&apos;).readFile(&quot;04.txt&quot;, &apos;utf8&apos;, function (err, data) {
+    if (err) { return console.log(err) }
+    linesFn(data.split(&quot;\n&quot;))
+  })  
+}
+
+function parse(line) {
+  const [f, g] = line.split(&quot;,&quot;)
+  const k = f.split(&quot;-&quot;)
+  const l = g.split(&quot;-&quot;)
+  return [parseInt(k[0]), parseInt(k[1]), parseInt(l[0]), parseInt(l[1])]
+}
+
+const contained = x =&gt; (x[0] &lt;= x[2] &amp;&amp; x[1] &gt;= x[3]) || (x[2] &lt;= x[0] &amp;&amp; x[3] &gt;= x[1])
+const overlap = x =&gt; contained(x) || 
+  (x[0] &gt;= x[2] &amp;&amp; x[0] &lt;= x[3]) || 
+  (x[1] &gt;= x[2] &amp;&amp; x[1] &lt;= x[3])
+
+function a() {
+  fileProcess(lines =&gt; {
+    let total = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const x = parse(lines[i])
+      if (contained(x)) {
+        total += 1
+      }      
+    }    
+    console.log(&quot;A: &quot; + total)
+  })
+}
+
+function b() {
+  fileProcess(lines =&gt; {
+    let total = 0
+    for (var i=0; i&lt;lines.length; ++i) {
+      const x = parse(lines[i])
+      if (overlap(x)) {
+        total += 1
+      }      
+    }
+    console.log(&quot;B: &quot; + total)
+  })
+}
+
+a()
+b()
+</pre></code>
     </section>
     
     <footer>
